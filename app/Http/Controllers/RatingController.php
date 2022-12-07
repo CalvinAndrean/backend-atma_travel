@@ -13,7 +13,6 @@ class RatingController extends Controller
 {
     public function index()
     {
-        // $destinasi = Destinasi::get();
         $rating = Rating::with(['destinasi', 'user'])->latest()->get();
 
         return new RatingResource(true, 'List Data Rating', $rating);
@@ -32,7 +31,7 @@ class RatingController extends Controller
             'id_user' => 'required',
             'id_destinasi' => 'required',
             'komentar' => 'required',
-            'rating' => 'required',
+            'rating' => 'numeric|required|max:5|min:1',
         ]);
 
         if ($validator->fails()) {
@@ -93,7 +92,7 @@ class RatingController extends Controller
             'id_user' => 'required',
             'id_destinasi' => 'required',
             'komentar' => 'required',
-            'rating' => 'required',
+            'rating' => 'numeric|required|max:5|min:1',
         ]);
 
         if ($validator->fails()) {
