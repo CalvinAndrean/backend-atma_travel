@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Http\Resources\DestinasiResource;
-
+use App\Models\Destinasi;
 use Illuminate\Http\Request;
 
 class DestinasiController extends Controller
