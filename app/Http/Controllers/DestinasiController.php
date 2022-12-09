@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 use App\Models\Destinasi;
 use App\Http\Resources\DestinasiResource;
 use Illuminate\Support\Facades\Validator;
-
 use Illuminate\Http\Request;
 
 class DestinasiController extends Controller
