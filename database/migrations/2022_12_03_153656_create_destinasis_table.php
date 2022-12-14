@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('destinasis', function (Blueprint $table) {
             $table->id();
+            $table->int('id_user');
             $table->string('nama');
             $table->float('total_rating');
             $table->string('deskripsi');

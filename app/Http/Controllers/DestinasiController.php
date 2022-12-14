@@ -24,11 +24,10 @@ class DestinasiController extends Controller
             'nama' => 'required',
             'total_rating' => 'required',
             'deskripsi' => 'required',
-            'foto' => 'required | mimes:jpeg, png, bmp'
+            'foto' => 'required'
         ]);
 
         // Menyimpan foto kedalam file local storage/app/public/destinasi
-        $request->foto->store('destinasi', 'public');
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
@@ -39,8 +38,17 @@ class DestinasiController extends Controller
             'nama' => $request->nama,
             'total_rating' => $request->total_rating,
             'deskripsi' => $request->deskripsi,
-            'foto' => $request->foto->hashName()
+            'foto' => $request->foto->hashName(),
         ]);
+
+        $request->foto->store('foto');
+
+        // if($destinasi){
+        //     if($request->hasFile('foto') && $request->file('foto')->isValid()){
+        //         $request->foto->store('foto');
+        //     }
+        // }
+
         return new DestinasiResource(true, 'Data Destinasi Berhasil Ditambahkan!', $destinasi);
     }
 

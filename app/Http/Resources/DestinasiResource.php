@@ -15,8 +15,6 @@ class DestinasiResource extends JsonResource
         $this->message = $message;
     }
 
-
-
     public function toArray($request)
     {
         return [

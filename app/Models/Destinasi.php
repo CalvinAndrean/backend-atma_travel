@@ -11,6 +11,7 @@ class Destinasi extends Model
 
     protected $fillable = [
         'id',
+        'id_user',
         'nama',
         'total_rating',
         'deskripsi',
