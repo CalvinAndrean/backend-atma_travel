@@ -6,7 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -22,8 +22,8 @@ class User extends Authenticatable
         'email',
         'username',
         'password',
-        'tgl_lahir',
-        'foto',
+        'image',
+        'name'
     ];
 
     public function rating(){
@@ -32,6 +32,10 @@ class User extends Authenticatable
 
     public function planner(){
         return $this->hasMany(User::class, 'id_user', 'id');
+    }
+
+    public function AauthAcessToken(){
+        return $this->hasMany('\App\OauthAccessToken');
     }
 
     /**
