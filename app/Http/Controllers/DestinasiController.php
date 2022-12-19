@@ -27,6 +27,11 @@ class DestinasiController extends Controller
             'foto' => 'required'
         ]);
 
+        $requestData = $request->all();
+        $fileName = time().$request->file('foto')->getClientOriginalName();
+        $path = $request->file('foto')->storeAs('destinasi', $fileName, 'public');
+        $requestData['foto'] = 'storage/'. $path;
+
         // Menyimpan foto kedalam file local storage/app/public/destinasi
 
         if ($validator->fails()) {
@@ -34,14 +39,16 @@ class DestinasiController extends Controller
         }
 
             //Fungsi Simpan Data ke dalam Database
-        $destinasi = Destinasi::create([
-            'nama' => $request->nama,
-            'total_rating' => $request->total_rating,
-            'deskripsi' => $request->deskripsi,
-            'foto' => $request->foto->hashName(),
-        ]);
+            $destinasi = Destinasi::create($requestData);
 
-        $request->foto->store('foto');
+        // $destinasi = Destinasi::create([
+        //     'nama' => $request->nama,
+        //     'total_rating' => $request->total_rating,
+        //     'deskripsi' => $request->deskripsi,
+        //     'foto' => $request->foto->hashName(),
+        // ]);
+
+        // $request->foto->store('public/destinasi');
 
         // if($destinasi){
         //     if($request->hasFile('foto') && $request->file('foto')->isValid()){
@@ -64,10 +71,10 @@ class DestinasiController extends Controller
 
         public function update(Request $request, $id){
             $this->validate($request, [
-                'nama' => 'required',
-                'total_rating' => 'required',
-                'deskripsi' => 'required',
-                'foto' => 'required'
+                'nama',
+                'total_rating',
+                'deskripsi',
+                'foto'
             ]);
 
             $destinasi = Destinasi::find($id);
@@ -75,7 +82,12 @@ class DestinasiController extends Controller
             $destinasi->nama = $request->get('nama');
             $destinasi->total_rating = $request->get('total_rating');
             $destinasi->deskripsi = $request->get('deskripsi');
-            $destinasi->foto = $request->get('foto');
+
+            $requestData = $request->all();
+            $fileName = time().$request->file('foto')->getClientOriginalName();
+            $path = $request->file('foto')->storeAs('destinasi', $fileName, 'public');
+            $requestData['foto'] = 'storage/'. $path;
+
             $destinasi->save();
     
             // Departemen::edit([
