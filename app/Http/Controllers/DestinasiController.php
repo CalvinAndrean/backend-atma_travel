@@ -35,6 +35,7 @@ class DestinasiController extends Controller
 
             //Fungsi Simpan Data ke dalam Database
         $destinasi = Destinasi::create([
+            'id_user' => $user->id_user,
             'nama' => $request->nama,
             'total_rating' => $request->total_rating,
             'deskripsi' => $request->deskripsi,

@@ -34,6 +34,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(User::class, 'id_user', 'id');
     }
 
+    public function destinasi(){
+        return $this->hasMany(User::class, 'id_user', 'id');
+    }
+
     public function AauthAcessToken(){
         return $this->hasMany('\App\OauthAccessToken');
     }
