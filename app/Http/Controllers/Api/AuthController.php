@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Session;
 use Laravel\Passport\RefreshToken;
 use Laravel\Passport\Token;
@@ -39,6 +40,7 @@ class AuthController extends Controller
         $registrationData["image"] = basename($image_uploaded_path);
         
         $user = User::create($registrationData);
+        event(new Registered($user));
         return response([
             'message' => 'Register Success',
             'user' => $user
@@ -61,6 +63,14 @@ class AuthController extends Controller
         
 
         $user = Auth::user();
+
+        if(!$user->hasVerifiedEmail()){
+            return response([
+                'message' => 'Email Not Verified',
+                'data' => null
+            ], 401);
+        }
+        
         $token = $user->createToken('Authentication Token')->accessToken; // generate token
 
         return response([
