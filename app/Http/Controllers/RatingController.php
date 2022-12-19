@@ -28,7 +28,6 @@ class RatingController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id_user' => 'required',
             'id_destinasi' => 'required',
             'komentar' => 'required',
             'rating' => 'numeric|required|max:5|min:1',
@@ -38,8 +37,10 @@ class RatingController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
+        $user = auth()->user();
+
         $data = Rating::create([
-            'id_user' => $request->id_user,
+            'id_user' => $user->id,
             'id_destinasi' => $request->id_destinasi,
             'komentar' => $request->komentar,
             'rating' => $request->rating,
@@ -89,7 +90,6 @@ class RatingController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'id_user' => 'required',
             'id_destinasi' => 'required',
             'komentar' => 'required',
             'rating' => 'numeric|required|max:5|min:1',
@@ -100,7 +100,6 @@ class RatingController extends Controller
         }
 
         $data = Rating::find($id)->update([
-            'id_user' => $request->id_user,
             'id_destinasi' => $request->id_destinasi,
             'komentar' => $request->komentar,
             'rating' => $request->rating,

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('destinasis', function (Blueprint $table) {
             $table->id();
-            $table->int('id_user');
+            $table->foreignId('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->string('nama');
             $table->float('total_rating');
             $table->string('deskripsi');

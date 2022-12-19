@@ -32,10 +32,13 @@ class DestinasiController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
+        
+        // ambil id user yang login
+        $user = auth()->user();
 
             //Fungsi Simpan Data ke dalam Database
         $destinasi = Destinasi::create([
-            'id_user' => $user->id_user,
+            'id_user' => $user->id,
             'nama' => $request->nama,
             'total_rating' => $request->total_rating,
             'deskripsi' => $request->deskripsi,
@@ -64,26 +67,21 @@ class DestinasiController extends Controller
         }
 
         public function update(Request $request, $id){
-            $this->validate($request, [
+            $validator = Validator::make($request->all(), [
                 'nama' => 'required',
-                'total_rating' => 'required',
+                'total_rating' => 'required|numeric|max:5',
                 'deskripsi' => 'required',
-                'foto' => 'required'
             ]);
 
-            $destinasi = Destinasi::find($id);
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 422);
+            }
 
-            $destinasi->nama = $request->get('nama');
-            $destinasi->total_rating = $request->get('total_rating');
-            $destinasi->deskripsi = $request->get('deskripsi');
-            $destinasi->foto = $request->get('foto');
-            $destinasi->save();
-    
-            // Departemen::edit([
-            //     'nama_departemen' => $request->get('nama_departemen'),
-            //     'nama_manager' => $request->get('nama_manager'),
-            //     'jumlah_pegawai' => $request->get('jumlah_pegawai')
-            // ]);
+            $destinasi = Destinasi::find($id)->update([
+                'nama' => $request->nama,
+                'total_rating' => $request->total_rating,
+                'deskripsi' => $request->deskripsi,
+            ]);
 
             return new DestinasiResource(true, 'Data Destinasi Berhasil Diubah!', $destinasi);
         }
@@ -93,19 +91,5 @@ class DestinasiController extends Controller
             $tempHapus = Destinasi::find($id);
             $destinasi->delete();
             return new DestinasiResource(true, 'Data Destinasi Berhasil Dihapus!', $tempHapus);
-
-            // try{ 
-            //     //Mengisi variabel yang akan ditampilkan pada view mail
-            //         $content = [
-            //         'body' => $request->nama_departemen,
-            //         ];
-            //     //Mengirim email ke emailtujuan@gmail.com
-            //     Mail::to('calvinandrean456@gmail.com')->send(new DepartemenMail($content));
-            //     //Redirect jika berhasil mengirim email
-            //     return redirect()->route('departemen.index')->with(['success' => 'Data Berhasil Dihapus, email telah terkirim!']);
-            // } catch(Exception $e){
-            // //Redirect jika gagal mengirim email
-            //     return redirect()->route('departemen.index')->with(['success' => 'Data Berhasil Dihapus, namun gagal mengirim email!']);
-            // }
         }
 }

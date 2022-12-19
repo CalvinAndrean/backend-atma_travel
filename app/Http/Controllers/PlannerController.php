@@ -28,7 +28,6 @@ class PlannerController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id_user' => 'required',
             'id_destinasi' => 'required',
             'tgl' => 'required|date',
             'jumlah_orang' => 'required',
@@ -39,8 +38,10 @@ class PlannerController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
+        $user = auth()->user();
+
         $data = Planner::create([
-            'id_user' => $request->id_user,
+            'id_user' => $user->id,
             'id_destinasi' => $request->id_destinasi,
             'tgl' => $request->tgl,
             'jumlah_orang' => $request->jumlah_orang,
@@ -91,7 +92,6 @@ class PlannerController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'id_user' => 'required',
             'id_destinasi' => 'required',
             'tgl' => 'required|date',
             'jumlah_orang' => 'required',
@@ -103,7 +103,6 @@ class PlannerController extends Controller
         }
 
         $data = Planner::find($id)->update([
-            'id_user' => $request->id_user,
             'id_destinasi' => $request->id_destinasi,
             'tgl' => $request->tgl,
             'jumlah_orang' => $request->jumlah_orang,
