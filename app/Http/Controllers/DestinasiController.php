@@ -36,6 +36,13 @@ class DestinasiController extends Controller
         // ambil id user yang login
         $user = auth()->user();
 
+        $uploadFolder = 'users';
+        $image = $request->file('foto');
+
+        $image_uploaded_path = $image->store($uploadFolder, 'public');
+
+        $registrationData["image"] = basename($image_uploaded_path);
+
             //Fungsi Simpan Data ke dalam Database
         $destinasi = Destinasi::create([
             'id_user' => $user->id,
@@ -45,7 +52,7 @@ class DestinasiController extends Controller
             'foto' => $request->foto->hashName(),
         ]);
 
-        $request->foto->store('foto');
+        // $request->foto->store('users');
 
         // if($destinasi){
         //     if($request->hasFile('foto') && $request->file('foto')->isValid()){
