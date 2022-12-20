@@ -35,5 +35,8 @@ Route::group(['middleware' => 'auth:api'], function(){
   Route::apiResource('/destinasis', App\Http\Controllers\DestinasiController::class);
   Route::apiResource('/ratings', App\Http\Controllers\RatingController::class);
   Route::apiResource('/planners', App\Http\Controllers\PlannerController::class);
+
+  Route::apiResource('/users', App\Http\Controllers\UserController::class);
+
   Route::post('logout', 'Api\AuthController@logoutApi');
 });
