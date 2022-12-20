@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\UserResource;
 
 class UserController extends Controller
 {
@@ -30,17 +31,13 @@ class UserController extends Controller
   {
     $user = User::find($id);
 
-    if(!is_null($user)) {
-        return response([
-            'message' => 'Retrieve User Success',
-            'data' => $user
-        ], 200);
-    }
+    return new UserResource(true, 'Detail Data User', $user);
+  }
 
-    return response([
-        'message' => 'User Not Found',
-        'data' => null
-    ], 400);
+  public function edit($id)
+  {
+    $data = User::find($id);
+    return view('user.edit', compact('data'));
   }
 
   public function update(Request $request, $id)
@@ -71,17 +68,22 @@ class UserController extends Controller
 
     $updateData['password'] = bcrypt($request->password);
 
-    // $uploadFolder = 'users';
-    // $image = $request->file('image');
+    if ($updateData['image']!=null){
+      $uploadFolder = 'users';
+      $image = $request->file('image');
 
-    // $image_uploaded_path = $image->store($uploadFolder, 'public');
+      $image_uploaded_path = $image->store($uploadFolder, 'public');
 
-    // $updateData["image"] = basename($image_uploaded_path);
+      $updateData["image"] = basename($image_uploaded_path);
+
+      $user->image = $updateData['image'];
+    }
+    
 
     $user->name = $updateData['name'];
     $user->password = $updateData['password'];
     $user->email = $updateData['email'];
-    // $user->image = $updateData['image'];
+    
     $user->username = $updateData['username'];
     $user->save();
 

@@ -25,6 +25,13 @@ class PlannerController extends Controller
         return view('planner.create', compact('destinasi', 'user'));
     }
 
+    // public function indexById($id_user)
+    // {
+    //     $planner = Planner::where('id_user', $id_user)->with(['destinasi', 'user'])->latest()->get();
+
+    //     return new PlannerResource(true, 'List data planner', $planner);
+    // }
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -77,7 +84,7 @@ class PlannerController extends Controller
 
     public function show($id)
     {
-        $data = Planner::find($id);
+        $data = Planner::where('id_user', $id)->with(['destinasi', 'user'])->latest()->get();
         return new PlannerResource(true, 'Detail Data Planner', $data);
     }
 
