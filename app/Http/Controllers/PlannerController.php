@@ -82,9 +82,20 @@ class PlannerController extends Controller
         ], 404);
     }
 
+    public function indexById($id_user)
+    {
+        $data = Planner::where('id_user', $id_user)->with(['destinasi', 'user'])->latest()->get();
+
+        if(count($data) > 0){
+            
+            return new PlannerResource(true, 'Detail Data Planner', $data);
+        }
+        return new PlannerResource(false, 'Detail Data Planner', $data);
+    }
+
     public function show($id)
     {
-        $data = Planner::where('id_user', $id)->with(['destinasi', 'user'])->latest()->get();
+        $data = Planner::find($id);
         return new PlannerResource(true, 'Detail Data Planner', $data);
     }
 

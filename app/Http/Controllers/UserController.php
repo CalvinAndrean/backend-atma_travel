@@ -68,7 +68,7 @@ class UserController extends Controller
 
     $updateData['password'] = bcrypt($request->password);
 
-    if ($updateData['image']!=null){
+    if ($request->get('image')!=null){
       $uploadFolder = 'users';
       $image = $request->file('image');
 

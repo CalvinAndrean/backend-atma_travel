@@ -70,6 +70,11 @@ class DestinasiController extends Controller
 
         public function show($id){
             $destinasi = Destinasi::find($id);
+
+            if($destinasi == null){
+                return new DestinasiResource(false, 'Data Destinasi Tidak Ditemukan!', null);
+            }
+
             return new DestinasiResource(true, 'Data Destinasi Berhasil Diambil!', $destinasi);
         }
 
@@ -96,6 +101,11 @@ class DestinasiController extends Controller
         public function destroy(Request $request, $id){
             $destinasi = Destinasi::find($id);
             $tempHapus = Destinasi::find($id);
+
+            if($destinasi == null){
+                return new DestinasiResource(false, 'Data Destinasi Tidak Ditemukan!', null);
+            }
+
             $destinasi->delete();
             return new DestinasiResource(true, 'Data Destinasi Berhasil Dihapus!', $tempHapus);
         }
