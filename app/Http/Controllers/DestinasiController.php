@@ -19,7 +19,7 @@ class DestinasiController extends Controller
         return view('destinasi.create');
     }
 
-    public function store(Request $request){
+    public function store(Request $request){ 
         $validator = Validator::make($request->all(), [
             'nama' => 'required',
             'total_rating' => 'required',

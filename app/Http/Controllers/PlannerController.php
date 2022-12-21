@@ -15,7 +15,7 @@ class PlannerController extends Controller
     {
         $planner = Planner::with(['destinasi', 'user'])->latest()->get();
 
-        return new PlannerResource(true, 'List data planner', $planner);
+        return new PlannerResource(true, 'List data planner index', $planner);
     }
 
     public function create()
@@ -88,15 +88,15 @@ class PlannerController extends Controller
 
         if(count($data) > 0){
             
-            return new PlannerResource(true, 'Detail Data Planner', $data);
+            return new PlannerResource(true, 'Detail Data Planner indexById', $data);
         }
-        return new PlannerResource(false, 'Detail Data Planner', $data);
+        return new PlannerResource(false, 'Detail Data Planner indexById', $data);
     }
 
     public function show($id)
     {
-        $data = Planner::find($id);
-        return new PlannerResource(true, 'Detail Data Planner', $data);
+        $data = Planner::where('id', $id)->with(['destinasi', 'user'])->latest()->get();
+        return new PlannerResource(true, 'Detail Data Show Planner', $data);
     }
 
     public function edit($id)
@@ -110,7 +110,6 @@ class PlannerController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'id_destinasi' => 'required',
             'tgl' => 'required|date',
             'jumlah_orang' => 'required',
             'note' => 'required',
@@ -121,7 +120,6 @@ class PlannerController extends Controller
         }
 
         $data = Planner::find($id)->update([
-            'id_destinasi' => $request->id_destinasi,
             'tgl' => $request->tgl,
             'jumlah_orang' => $request->jumlah_orang,
             'note' => $request->note,
