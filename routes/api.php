@@ -36,7 +36,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::get('/destinasis', 'App\Http\Controllers\DestinasiController@index');
     Route::get('/destinasis/{id}', 'App\Http\Controllers\DestinasiController@show');
     Route::post('/destinasis', 'App\Http\Controllers\DestinasiController@store');
-    Route::put('/destinasis/{id}', 'App\Http\Controllers\DestinasiController@update');
+    Route::post('/destinasis/{id}', 'App\Http\Controllers\DestinasiController@update');
     Route::delete('/destinasis/{id}', 'App\Http\Controllers\DestinasiController@destroy');
 
     Route::get('/ratings', 'App\Http\Controllers\RatingController@index');

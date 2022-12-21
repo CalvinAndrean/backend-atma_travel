@@ -58,7 +58,6 @@ class UserController extends Controller
       'name' => 'required|max:60',
       'email' => 'required|email:rfc,dns|unique:users',
       'password' => 'required',
-      'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
       'username' => 'required|min:6|max:12|regex:/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/'
     ]);
 
@@ -69,14 +68,14 @@ class UserController extends Controller
     $updateData['password'] = bcrypt($request->password);
 
     // if ($request->get('image')!=null){
-      $uploadFolder = 'users';
-      $image = $request->file('image');
+      // $uploadFolder = 'users';
+      // $image = $request->file('image');
 
-      $image_uploaded_path = $image->store($uploadFolder, 'public');
+      // $image_uploaded_path = $image->store($uploadFolder, 'public');
 
-      $updateData["image"] = basename($image_uploaded_path);
+      // $updateData["image"] = basename($image_uploaded_path);
 
-      $user->image = $updateData['image'];
+      // $user->image = $updateData['image'];
     // }
     
 
